@@ -1,0 +1,323 @@
+﻿<Window x:Class="Refferal_of_patients.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Refferal_of_patients"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen" Height="1080" Width="1295">
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!--Верхняя панель-->
+        <Border Background="ForestGreen">
+            <Grid>
+                <TextBlock Text="ГКБ Большие кабаны"
+                           VerticalAlignment="Center"
+                           Margin="30,0,0,0"
+                           FontSize="24"
+                           Foreground="White"
+                           FontFamily="Verdana"/>
+                <Border x:Name="ProfileBg" HorizontalAlignment="Right"
+                        Margin="0,5,30,5"
+                        Background="DarkGreen"
+                        CornerRadius="20"
+                        MouseLeftButtonDown="ProfileBg_MouseLeftButtonDown">
+                    <Image x:Name="ProfileImg" 
+                           Source="/Resources/ProfileIco.png"/>
+                </Border>
+            </Grid>
+        </Border>
+        
+        <!--Панель авторизации-->
+        <Border x:Name="LoginForm"  
+                Grid.RowSpan="2" 
+                Background="#33000000"
+                MouseLeftButtonDown="LoginForm_MouseLeftButtonDown"
+                Panel.ZIndex="1" d:IsHidden="True">
+            <Grid HorizontalAlignment="Center" 
+                  VerticalAlignment="Center" 
+                  Height="280" 
+                  Width="400">
+                <StackPanel Orientation="Vertical" 
+                            Background="White">
+                    <Border Background="ForestGreen"
+                            Height="50">
+                        <TextBlock Text="Авторизация"
+                                   FontSize="32"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="White"
+                                   FontFamily="Verdana"/>
+                    </Border>
+                    <TextBlock Text="Логин:" 
+                               FontSize="22"
+                               FontFamily="Verdana"
+                               Margin="0,10,0,0"/>
+                    <TextBox x:Name="LoginBox" Height="30"
+                             VerticalContentAlignment="Center"
+                             FontSize="20"
+                             Margin="0,5,0,0"
+                             />
+                    <TextBlock Text="Пароль:" 
+                            FontSize="22"
+                            FontFamily="Verdana"
+                            Margin="0,5,0,0"/>
+                    <PasswordBox x:Name="PasswordBx" Height="30"
+                                Margin="0,5,0,0"
+                                VerticalContentAlignment="Center"
+                                FontSize="20"/>
+                    <Button x:Name="ProfileSumbit" Content="подтвердить" 
+                            Height="40" 
+                            Width="140"
+                            Margin="0,30,0,0"
+                            FontSize="20"
+                            Background="ForestGreen"
+                            Foreground="White"
+                            FontFamily="Verdana" Click="ProfileSumbit_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!--Вкладки-->
+        <TabControl Grid.Row="1">
+            <TabItem Header="Главная"
+                     Height="40"
+                     Width="80">
+                <StackPanel>
+                    <TextBlock Text="Главная"
+                               FontSize="34"
+                               Margin="10,5,0,10"
+                               Foreground="ForestGreen"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem x:Name="PatientItem" 
+                     Header="Пациенты"
+                     Width="80"
+                     Visibility="Hidden">
+                <DockPanel>
+                    <StackPanel Orientation="Vertical"
+                                DockPanel.Dock="Left"
+                                Width="295">
+                        <Border Background="ForestGreen"
+                                Height="40">
+                            <TextBlock Text="Список пациентов"
+                                       FontSize="22"
+                                       Foreground="White"
+                                       VerticalAlignment="Center"
+                                       Margin="10,0,0,0"/>
+                        </Border>
+                        <DataGrid x:Name="PatientGrid"
+                                  Height="910"
+                                  IsReadOnly="True"
+                                  SelectionChanged="PatientGrid_SelectionChanged"/>
+                    </StackPanel>
+                    <StackPanel Width="350">
+                        <Image x:Name="ProfilePic" 
+                               Height="300"
+                               Width="250"
+                               Margin="0,10,0,0" 
+                               Source="/Resources/Sponge.jpg"/>
+                        <TextBlock Text="Дата последнего обращения:" 
+                                   Margin="10,0,10,5"
+                                   FontSize="16"/>
+                        <DatePickerTextBox x:Name="LastVisitBx" Margin="10,0,10,10"
+                                           Height="30"
+                                           VerticalContentAlignment="Center"
+                                           IsReadOnly="True" 
+                                           BorderBrush="DarkGray"
+                                           BorderThickness="1"
+                                           Text="00.00.0000"/>
+                        <TextBlock Text="Дата следующего обращения:" 
+                                   Margin="10,0,10,5"
+                                   FontSize="16"/>
+                        <DatePickerTextBox x:Name="NextVisitBx" Margin="10,0,10,0"
+                                           Height="30"
+                                           VerticalContentAlignment="Center"
+                                           IsReadOnly="True" 
+                                           BorderBrush="DarkGray"
+                                           BorderThickness="1"
+                                           Text="00.00.0000"/>
+                    </StackPanel>
+                    <DockPanel DockPanel.Dock="Right">
+                        <TabControl>
+                            <TabItem Header="Общие"
+                                     Height="30">
+                                <WrapPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="№ карты"/>
+                                        <TextBox x:Name="CardBx" Width="70" IsReadOnly="True"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="Дата выдачи"/>
+                                        <TextBox x:Name="DateCardBx" Width="90"
+                                                 IsReadOnly="True"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="ФИО"/>
+                                        <TextBox x:Name="FioBx" Width="430"
+                                                 IsReadOnly="True"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="Пол"/>
+                                        <TextBox x:Name="GenderBx" Width="30" 
+                                                 HorizontalContentAlignment="Center"
+                                                 IsReadOnly="True"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="Дата рождения"/>
+                                        <TextBox x:Name="DateBx" Width="110"
+                                                 IsReadOnly="True"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="Адрес проживания"/>
+                                        <TextBox x:Name="AddressBx" Width="330"
+                                                 IsReadOnly="True"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="Номер телефона"/>
+                                        <TextBox x:Name="PhoneBx" Width="110"
+                                                 IsReadOnly="True"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="Электронный адрес"/>
+                                        <TextBox x:Name="MailBx" Width="190"
+                                                 IsReadOnly="True"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="Номер и серия паспорта"/>
+                                        <TextBox x:Name="PassBx" Width="150"
+                                                 IsReadOnly="True"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="Номер страхового полиса"/>
+                                        <TextBox x:Name="PolisBx" Width="150"
+                                                 IsReadOnly="True"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="Дата окончания"/>
+                                        <TextBox x:Name="PolisDateBx" Width="90"
+                                                 IsReadOnly="True"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="Диагноз"/>
+                                        <TextBox x:Name="DiagnoseBx" 
+                                                 Width="610"
+                                                 TextChanged="TextBox_Changed"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="История болезни"/>
+                                        <TextBox x:Name="MedHisBx" Width="610"
+                                                     Height="60"
+                                                     TextWrapping="Wrap"
+                                                     AcceptsReturn="True"
+                                                     TextChanged="TextBox_Changed"/>
+                                    </StackPanel>
+                                    <Border x:Name="SaveBr" 
+                                            Width="720" 
+                                            Margin="10,0,0,10"
+                                            Visibility="Hidden">
+                                        <Button x:Name="SaveBtn" 
+                                                Content="Сохранить"
+                                                Width="80"
+                                                Height="30"
+                                                Background="#FF61E061"
+                                                Foreground="White"
+                                                FontWeight="Bold" Click="SaveBtn_Click"/>
+                                    </Border>
+                                </WrapPanel>
+                            </TabItem>
+                            <TabItem Header="Л-Д мероприятия">
+                                <WrapPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="№Пациента"/>
+                                        <TextBox x:Name="PatientIdBx" 
+                                                 Width="70" 
+                                                 IsReadOnly="True"
+                                                 HorizontalContentAlignment="Center"
+                                                 Height="25"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="Дата мероприятия"/>
+                                        <DatePicker x:Name="DateMeasuresBx" Width="110"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="Ответственный врач"/>
+                                        <TextBox x:Name="DoctorBx" 
+                                                 Width="410"
+                                                 Height="25"
+                                                 PreviewTextInput="DoctorBx_PreviewTextInput"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="Тип мероприятия"/>
+                                        <ComboBox x:Name="TypeMeasuresCb" Width="220"
+                                                  Height="25">
+                                            <ComboBoxItem Content="Лабораторное исследование"/>
+                                            <ComboBoxItem Content="Инструментальная диагностика"/>
+                                            <ComboBoxItem Content="Лекарственная терапия"/>
+                                            <ComboBoxItem Content="Физиотерапия"/>
+                                            <ComboBoxItem Content="Хирургическое лечение"/>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="Название мероприятия"/>
+                                        <TextBox x:Name="NameMeasures" Width="380"
+                                                 Height="25"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="Результаты"/>
+                                        <TextBox x:Name="ResultMeasures" Width="610"
+                                                 Height="50"
+                                                 TextWrapping="Wrap"
+                                                 AcceptsReturn="True"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical"
+                                                Margin="10,0,0,5">
+                                        <TextBlock Text="Рекомендации"/>
+                                        <TextBox x:Name="RecomendMeasuresBx" Width="610"
+                                                 Height="75"
+                                                 TextWrapping="Wrap"
+                                                 AcceptsReturn="True"/>
+                                    </StackPanel>
+                                    <Border Width="620" Margin="10,0,0,10">
+                                        <Button x:Name="SaveBtn2" 
+                                                Content="Сохранить"
+                                                Width="80"
+                                                Height="30"
+                                                Background="#FF61E061"
+                                                Foreground="White"
+                                                FontWeight="Bold" Click="SaveBtn2_Click"/>
+                                    </Border>
+                                </WrapPanel>
+                            </TabItem>
+                        </TabControl>
+                    </DockPanel>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
